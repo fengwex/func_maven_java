@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+    # Returns optimized JPEG or original
+    javatest:
+        image: java_template:latest
+        labels:
+            function: "true"
+        depends_on:
+            - gateway
+        networks:
+            - functions
+        environment:
+            no_proxy: "gateway"
+            https_proxy: $https_proxy
+        deploy:
+            placement:
+                constraints:
+                    - 'node.platform.os == linux'
+
+networks:
+    functions:
+        driver: overlay
+        attachable: true
